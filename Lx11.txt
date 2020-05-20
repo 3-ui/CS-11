@@ -1,0 +1,84 @@
+﻿C#企业级开发技术练习11答题卡
+
+班级：    信管一班
+姓名：    卢茵茵
+学号：    20190307135
+
+注：请将答案放置在序号下方。*/
+
+（一）
+using System;
+
+namespace _11
+{
+	class Program
+	{
+		class Employee
+		{
+			public int? id { get; set; }
+			public decimal? pay { get; set; }
+			public string eNme { get; set; }
+			public void Deconstruct(out int? a, out string b, out decimal? c)
+			{
+				(a, b, c) = (id, eNme, pay);
+			}
+		}
+		static void Main(string[] args)
+		{
+			Employee[] emps = {
+				new Employee { pay = 9200, id = 201010, eNme = "wang" },
+				new Employee { pay = 9654.32m, id = 201011, eNme = "zhang" }
+			};
+			foreach (var emp in emps)
+			{
+				var (employeeId, employeeName, employeePay) = emp;
+				Console.WriteLine($"{employeeName}({employeeId})工资,{employeePay}");
+			}
+		}
+	}
+}
+（二）
+using System;
+using System.IO;
+
+namespace _11_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Directory.CreateDirectory(@"d:\homeDir");
+            string homeFile = @"d:\homeDir\Homework.txt";
+            File.WriteAllLines(homeFile, new[] { "登鹳雀楼", "唐代:王之涣" });
+            File.WriteAllText(homeFile, "白日依山尽， \r\n");
+            File.WriteAllLines(homeFile, new[] { "黄河入海流。", "欲穷千里目，" });
+            File.WriteAllText(homeFile, "更上一层楼。");
+        }
+    }
+}
+（三）
+using System;
+using System.IO;
+
+namespace _11_3
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            DirectoryInfo di = new DirectoryInfo(@"d:\homeDir");
+            if (!di.Exists)
+                di.Create();
+            File.Delete(@"d:\homeDir\Homework2.txt");
+            FileInfo fi = new FileInfo(@"d:\HomeDir\Homework1.txt");
+            using (var homeFile = fi.Create())
+            {
+                byte[] buffer = new byte[] { 72, 101, 108, 108, 111, 33 };
+                homeFile.Write(buffer);
+            }
+            FileInfo f1 = new FileInfo(@"d:\HomeDir\Homework1.txt");
+            if (fi.Exists)
+                fi.MoveTo(@"d:\HomeDir\Homework2.txt");
+        }
+    }
+}
